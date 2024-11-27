@@ -83,6 +83,8 @@ const useChatAnswer = ({
 		setController(newController);
 
 		let messages = getInitialMessages(chat, data);
+		console.log('inside chat answer', messages);
+
 		try {
 			const response = await fetch('/api/chat', {
 				method: 'POST',
@@ -93,7 +95,6 @@ const useChatAnswer = ({
 				}),
 				signal: newController.signal,
 			});
-
 			if (!response.ok) {
 				setError('Something went wrong. Please try again later.');
 				setErrorFunction(() => handleAnswer.bind(null, chat, data));

@@ -33,7 +33,7 @@ type Props = {
 const Chat = (props: Props) => {
 	const { id } = props;
 	const dispatch = useDispatch();
-
+	console.log('inside chat.tsx at the begining');
 	const { chatThread, isFetching } = useChatFetch(id);
 	const { handleFork } = useChatFork(id);
 	const { handleRetry } = useChatRetry();
@@ -174,9 +174,10 @@ const Chat = (props: Props) => {
 	// ]);
 
 	// Development Code
-	
-  const lastProcessedChatRef = useRef<number>(0);
+
+	const lastProcessedChatRef = useRef<number>(0);
 	const chatIdCounterRef = useRef<number>(0);
+	console.log('inside chat.tsx before useEffect');
 
 	useEffect(() => {
 		const processChatThread = async () => {
@@ -184,12 +185,17 @@ const Chat = (props: Props) => {
 				const lastChatIndex = chatThread.chats.length - 1;
 				const lastChat = chatThread.chats[lastChatIndex];
 				const lastChatId = chatIdCounterRef.current;
-				console.log(chatThread);
+				console.log('before api call inside chat.tsx', chatThread);
 				if (lastChatId !== lastProcessedChatRef.current) {
 					if (!lastChat.mode) {
 						try {
 							const { mode, arg } = await handleMode(
 								lastChat.question
+							);
+							console.log(
+								'after api call in chat.tsx',
+								mode,
+								arg
 							);
 							let parsedArg;
 							try {
@@ -200,7 +206,9 @@ const Chat = (props: Props) => {
 									error
 								);
 							}
-
+							console.log(
+								'inside chat.tsx before dispatch and update mode'
+							);
 							dispatch(
 								updateMode({
 									threadId: id,

@@ -1,6 +1,6 @@
 export const handleMode = async (text: string) => {
 	try {
-		console.log("inside api.ts"+text);
+		console.log('inside api.ts before tools api call' + text);
 		const response = await fetch('/api/tools', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -17,9 +17,8 @@ export const handleMode = async (text: string) => {
 				{ role: 'user', content: text },
 			]),
 		});
-		console.log("after request"+response);
 		const data = await response.json();
-		console.log('Mode and arguments:', data);
+		console.log('after tools api call iside handle mode in api.ts', data);
 		return { mode: data.mode, arg: data.arg };
 	} catch (error) {
 		console.error('Error fetching mode and arguments:', error);
