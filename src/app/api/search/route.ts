@@ -44,6 +44,7 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await response.json();
+    console.log(data);
     return NextResponse.json({ message: "Success", data });
   } catch (error) {
     console.error("Bing API request error:", error);
