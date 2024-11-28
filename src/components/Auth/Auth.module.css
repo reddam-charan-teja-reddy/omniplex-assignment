@@ -24,13 +24,13 @@
 	font-size: 22px;
 	line-height: 24px;
 	text-align: left;
-	color: black;
+	color: #ffffff;
 }
 .text {
 	font-size: 18px;
 	line-height: 21px;
 	font-weight: 600;
-	color: black;
+	color: #ffffff;
 	margin-top: 8px;
 }
 .close {
@@ -42,6 +42,7 @@
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	align-self: flex-start;
 	cursor: pointer;
 	transition: all 0.25s ease-in-out;
 }
@@ -53,7 +54,11 @@
 	height: auto;
 	padding: 16px;
 	padding-top: 0px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
+
 .button {
 	margin-top: 32px;
 	margin-bottom: 16px;
@@ -111,10 +116,10 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 40%;
-	width: 60%;
+	height: 35%;
+	width: 70%;
 	text-align: center;
-	background-color: #363636;
+	background-color: #161616;
 	border-radius: 20px;
 	padding: 20px;
 }
@@ -124,4 +129,33 @@
 		serif;
 	font-size: 32px;
 	text-align: center;
+}
+
+.carouselHolder {
+	width: 50vw;
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.cardSmallTitle {
+	font-size: 12px;
+	font-weight: lighter;
+}
+
+.cardColor {
+	background-color: #161616;
+}
+
+.carouselHeading {
+	font-size: 36px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+	.carouselHolder {
+		display: none;
+	}
 }

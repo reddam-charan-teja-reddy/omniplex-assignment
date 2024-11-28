@@ -4,6 +4,7 @@ import Writing from '../../public/svgs/options/Writing.svg';
 import Youtube from '../../public/svgs/options/Youtube.svg';
 import Reddit from '../../public/svgs/options/Reddit.svg';
 import Stackoverflow from '../../public/svgs/options/Stackoverflow.svg';
+import { image } from '@nextui-org/react';
 
 export const focusOptions = [
 	{
@@ -51,21 +52,27 @@ export const PLUGINS = [
 		tag: 'Built In',
 		name: 'Stocks',
 		comingSoon: false,
-		url: '/plugins/stocks',
+		url: '',
 		description: 'Check stock prices',
+		imageUrl:
+			'https://cdn.vectorstock.com/i/500p/73/79/analysis-stock-market-black-icon-on-white-vector-31617379.jpg',
 	},
 	{
 		tag: 'Built In',
 		name: 'Weather',
 		comingSoon: false,
-		url: '/plugins/weather',
+		url: '',
 		description: 'Weather forecast',
+		imageUrl:
+			'https://t4.ftcdn.net/jpg/09/87/70/03/240_F_987700389_T1rq1vNtPSZzceXrEXHsdrJQF22yhdn5.jpg',
 	},
 	{
 		tag: 'Built In',
 		name: 'Dictionary',
 		comingSoon: false,
-		url: '/plugins/dictionary',
+		url: '',
 		description: 'Look up word definitions',
+		imageUrl:
+			'https://t4.ftcdn.net/jpg/00/90/67/23/240_F_90672351_aMnnWdxVtuAIUubWBVVMXotZvoKjdd73.jpg',
 	},
 ];

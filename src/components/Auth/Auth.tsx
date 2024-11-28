@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Auth.module.css';
 import Image from 'next/image';
+import Autoplay from 'embla-carousel-autoplay';
 import { useRouter } from 'next/navigation';
 import { Modal, ModalContent } from '@nextui-org/modal';
 import { useDispatch } from 'react-redux';
@@ -10,6 +11,16 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../../firebaseConfig';
 import Spinner from '../Spinner/Spinner';
 import Logo from '../../../public/Logo.svg';
+import { PLUGINS } from '@/utils/data';
+
+import { Card, CardContent } from '@/components/ui/card';
+import {
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
+} from '@/components/ui/carousel';
 
 type Props = {
 	isOpen: boolean;
@@ -17,6 +28,9 @@ type Props = {
 };
 
 const Auth = (props: Props) => {
+	const plugin = React.useRef(
+		Autoplay({ delay: 2000, stopOnInteraction: true })
+	);
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
@@ -102,6 +116,7 @@ const Auth = (props: Props) => {
 							</div>
 						</div>
 						<div className={styles.container}>
+							{/*'login half'*/}
 							<div className={styles.loginPageContainer}>
 								<Image
 									src={Logo}
@@ -166,6 +181,73 @@ const Auth = (props: Props) => {
 									)}
 								</div>
 							</div>
+							<div className={styles.carouselHolder}>
+								{/*carousel showing the plugins*/}
+								<h1 className={styles.carouselHeading}>
+									Plugins available
+								</h1>
+								<Carousel
+									plugins={[plugin.current]}
+									className='w-full max-w-xs'
+								>
+									<CarouselContent>
+										{PLUGINS.map(
+											(plugin, index) => (
+												<CarouselItem
+													key={index}
+												>
+													<div className='p-1'>
+														<Card
+															className={
+																styles.cardColor
+															}
+														>
+															<CardContent className='d-flex flex-column aspect-square items-center justify-center p-6'>
+																<p
+																	className={
+																		styles.cardSmallTitle
+																	}
+																>
+																	Generate
+																	Information
+																	about
+																</p>
+																<h1 className='text-4xl font-semibold'>
+																	{
+																		plugin.name
+																	}
+																</h1>
+																<p>
+																	{
+																		plugin.description
+																	}
+																</p>
+																<Image
+																	className='mt-4 rounded-lg'
+																	width={
+																		200
+																	}
+																	height={
+																		200
+																	}
+																	alt={
+																		plugin.name
+																	}
+																	src={
+																		plugin.imageUrl
+																	}
+																></Image>
+															</CardContent>
+														</Card>
+													</div>
+												</CarouselItem>
+											)
+										)}
+									</CarouselContent>
+									<CarouselPrevious />
+									<CarouselNext />
+								</Carousel>
+							</div>
 						</div>
 					</div>
 				)}
@@ -175,3 +257,47 @@ const Auth = (props: Props) => {
 };
 
 export default Auth;
+
+/*
+
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+
+export function CarouselPlugin() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  )
+
+  return (
+    <Carousel
+      plugins={[plugin.current]}
+      className="w-full max-w-xs"
+      onMouseEnter={plugin.current.stop}
+      onMouseLeave={plugin.current.reset}
+    >
+      <CarouselContent>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <CarouselItem key={index}>
+            <div className="p-1">
+              <Card>
+                <CardContent className="flex aspect-square items-center justify-center p-6">
+                  <span className="text-4xl font-semibold">{index + 1}</span>
+                </CardContent>
+              </Card>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  )
+}
+
+*/
