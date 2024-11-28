@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import styles from './Auth.module.css';
 import Image from 'next/image';
 import Autoplay from 'embla-carousel-autoplay';
