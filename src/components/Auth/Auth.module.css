@@ -3,6 +3,9 @@
 	height: 100%;
 	overflow: hidden;
 	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	background-color: #232323;
 	transition: all 0.25s ease-in-out;
 }
@@ -108,10 +111,9 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 50%;
+	height: 40%;
 	width: 60%;
 	text-align: center;
-
 	background-color: #363636;
 	border-radius: 20px;
 	padding: 20px;
