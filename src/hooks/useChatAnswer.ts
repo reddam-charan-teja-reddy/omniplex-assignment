@@ -134,6 +134,7 @@ const useChatAnswer = ({
 				handleSave();
 			}
 		} catch (error) {
+			console.error('Fetch error:', error);  // Adding error logging
 			setIsLoading(false);
 			setIsStreaming(false);
 			setIsCompleted(true);
