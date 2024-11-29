@@ -12,14 +12,6 @@ const nextConfig = {
 	/*compiler: {
 		removeConsole: process.env.NODE_ENV === 'production',
 	},*/
-	async middleware() {
-		return [
-			{
-				source: '/api/:path*',
-				middleware: 'middleware',
-			},
-		];
-	},
 };
 
 export default nextConfig;

@@ -86,15 +86,18 @@ const useChatAnswer = ({
 		console.log('inside chat answer', messages);
 
 		try {
-			const response = await fetch('/api/chat', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					messages,
-					model: 'gpt-4',
-				}),
-				signal: newController.signal,
-			});
+			const response = await fetch(
+				'https://omniplex-assignment.vercel.app/api/chat',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						messages,
+						model: 'gpt-4',
+					}),
+					signal: newController.signal,
+				}
+			);
 			if (!response.ok) {
 				setError('Something went wrong. Please try again later.');
 				setErrorFunction(() => handleAnswer.bind(null, chat, data));
@@ -134,7 +137,7 @@ const useChatAnswer = ({
 				handleSave();
 			}
 		} catch (error) {
-			console.error('Fetch error:', error);  // Adding error logging
+			console.error('Fetch error:', error); // Adding error logging
 			setIsLoading(false);
 			setIsStreaming(false);
 			setIsCompleted(true);
@@ -194,15 +197,18 @@ const useChatAnswer = ({
 		}
 
 		try {
-			const response = await fetch('/api/chat', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					messages,
-					model: 'gpt-4',
-				}),
-				signal: newController.signal,
-			});
+			const response = await fetch(
+				'https://omniplex-assignment.vercel.app/api/chat',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						messages,
+						model: 'gpt-4',
+					}),
+					signal: newController.signal,
+				}
+			);
 
 			if (!response.ok) {
 				setError('Something went wrong. Please try again later.');
