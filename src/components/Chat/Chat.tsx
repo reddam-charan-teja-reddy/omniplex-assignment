@@ -189,6 +189,7 @@ const Chat = (props: Props) => {
 				if (lastChatId !== lastProcessedChatRef.current) {
 					if (!lastChat.mode) {
 						try {
+							console.log('about to call handle mode');
 							const { mode, arg } = await handleMode(
 								lastChat.question
 							);

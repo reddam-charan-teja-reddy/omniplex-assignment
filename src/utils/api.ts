@@ -2,6 +2,7 @@ export const handleMode = async (text: string) => {
 	try {
 		console.log('inside api.ts before tools api call' + text);
 		const response = await fetch('/api/tools', {
+			//https://omniplex-assignment.vercel.app/api/tools
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify([

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { json } from 'stream/consumers';
 
-const BING_API_KEY = process.env.BING_API_KEY;
+const key = process.env.BING_API_KEY;
 const BING_SEARCH_URL = 'https://api.bing.microsoft.com/v7.0/search';
 
 export const runtime = 'edge';
@@ -18,7 +19,7 @@ export async function GET(req: NextRequest) {
 		);
 	}
 
-	if (!BING_API_KEY) {
+	if (!key) {
 		console.error(
 			'Bing API key is undefined. Please check your .env.local file.'
 		);
@@ -34,7 +35,7 @@ export async function GET(req: NextRequest) {
 			{
 				method: 'GET',
 				headers: new Headers({
-					'Ocp-Apim-Subscription-Key': BING_API_KEY,
+					'Ocp-Apim-Subscription-Key': key || '',
 				}),
 			}
 		);
@@ -46,7 +47,7 @@ export async function GET(req: NextRequest) {
 		}
 
 		const data = await response.json();
-		//console.log(data);
+		console.log('Bing API response:', data);
 		return NextResponse.json({ message: 'Success', data });
 	} catch (error) {
 		console.error('Bing API request error:', error);
