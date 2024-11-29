@@ -178,7 +178,6 @@ const Chat = (props: Props) => {
 
 	const lastProcessedChatRef = useRef<number>(0);
 	const chatIdCounterRef = useRef<number>(0);
-	console.log('inside chat.tsx before useEffect');
 
 	useEffect(() => {
 		const processChatThread = async () => {
@@ -187,6 +186,14 @@ const Chat = (props: Props) => {
 				const lastChat = chatThread.chats[lastChatIndex];
 				const lastChatId = chatIdCounterRef.current;
 				console.log('before api call inside chat.tsx', chatThread);
+				console.log(
+					'lastChatIndex',
+					lastChatIndex,
+					'lastprocessed',
+					lastProcessedChatRef.current,
+					'lastChatId',
+					lastChatId
+				);
 				if (lastChatId !== lastProcessedChatRef.current) {
 					if (!lastChat.mode) {
 						try {
