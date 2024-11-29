@@ -27,6 +27,7 @@ type Props = {
 	isOpen: boolean;
 	onClose: () => void;
 };
+export const runtime = 'edge';
 
 const Auth = (props: Props) => {
 	const plugin = React.useRef(

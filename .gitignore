@@ -32,8 +32,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-#firebase
-firebaseConfig.js
 
 # typescript
 *.tsbuildinfo

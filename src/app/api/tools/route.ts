@@ -4,6 +4,8 @@ import type {
 	ChatCompletionCreateParamsNonStreaming,
 } from 'openai/resources/index';
 
+export const runtime = 'edge';
+
 import { OpenAI } from 'openai';
 
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
