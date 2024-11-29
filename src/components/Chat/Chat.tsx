@@ -194,7 +194,7 @@ const Chat = (props: Props) => {
 					'lastChatId',
 					lastChatId
 				);
-				if (lastChatId !== lastProcessedChatRef.current) {
+				if (lastChatId === lastProcessedChatRef.current) {
 					if (!lastChat.mode) {
 						try {
 							console.log('about to call handle mode');
