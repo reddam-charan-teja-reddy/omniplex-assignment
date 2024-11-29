@@ -24,15 +24,20 @@ const openai = getClient();
 export const runtime = 'edge';
 
 export async function POST(req: Request) {
-	const { messages, model } = await req.json();
-	console.log('inside chat api.ts', messages, model);
+	try {
+		const { messages, model } = await req.json();
+		console.log('inside chat api.ts', messages, model);
 
-	const response = await openai.chat.completions.create({
-		stream: true,
-		model: model,
-		messages: messages,
-	});
+		const response = await openai.chat.completions.create({
+			stream: true,
+			model: model,
+			messages: messages,
+		});
 
-	const stream = OpenAIStream(response);
-	return new StreamingTextResponse(stream);
+		const stream = OpenAIStream(response);
+		return new StreamingTextResponse(stream);
+	} catch (error) {
+		console.error('Error fetching chat completion:', error);
+		throw error;
+	}
 }
