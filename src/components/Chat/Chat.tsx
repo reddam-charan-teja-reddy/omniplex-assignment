@@ -47,6 +47,7 @@ const Chat = (props: Props) => {
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
+		console.log('inside chat.tsx first useEffect');
 		if (chatContainerRef.current) {
 			chatContainerRef.current.scrollIntoView({ behavior: 'smooth' });
 		}
