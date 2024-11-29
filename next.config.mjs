@@ -1,34 +1,17 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
-  },
-  compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
-  },
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin',
-          },
-          {
-            key: 'Cross-Origin-Embedder-Policy',
-            value: 'require-corp',
-          },
-        ],
-      },
-    ];
-  },
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: '**',
+			},
+		],
+	},
+	compiler: {
+		removeConsole: process.env.NODE_ENV === 'production',
+	},
 };
 
 export default nextConfig;
