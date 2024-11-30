@@ -87,6 +87,38 @@ export async function POST(req: Request) {
 		{
 			type: 'function',
 			function: {
+				name: 'translate',
+				description:
+					'Translate text to a specified language using Google Translate API.',
+				parameters: {
+					type: 'object',
+					properties: {
+						text: {
+							type: 'string',
+							description: 'The text to be translated.',
+						},
+						source_language: {
+							type: 'string',
+							description:
+								'The language of the source text.',
+						},
+						target_language: {
+							type: 'string',
+							description:
+								'The target language to translate into.',
+						},
+					},
+					required: [
+						'text',
+						'source_language',
+						'target_language',
+					],
+				},
+			},
+		},
+		{
+			type: 'function',
+			function: {
 				name: 'weather',
 				description: 'Get the current weather in a given location',
 				parameters: {

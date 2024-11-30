@@ -71,6 +71,7 @@ const useChatFetch = (id: string) => {
 	}, [dispatch, id, chatThread]);
 
 	useEffect(() => {
+		console.log('inside useEffect in useChatFetch from ', id, chatThread);
 		const fetchData = async () => {
 			setIsFetching(true);
 			if (!chatThread) {

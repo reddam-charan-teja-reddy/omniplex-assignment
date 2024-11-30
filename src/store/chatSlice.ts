@@ -9,6 +9,7 @@ import {
 	StockType,
 	DictionaryType,
 	SearchType,
+	TranslatePluginData,
 } from '@/utils/types';
 
 type ChatState = {
@@ -82,7 +83,7 @@ const chatSlice = createSlice({
 			state,
 			action: PayloadAction<{ threadId: string; message: Message }>
 		) => {
-      console.log('inside addMessage', action.payload);
+			console.log('inside addMessage', action.payload);
 			state.threads[action.payload.threadId].messages.push(
 				action.payload.message
 			);
@@ -147,6 +148,18 @@ const chatSlice = createSlice({
 			state.threads[threadId].chats[chatIndex].dictionaryResults =
 				dictionaryResults;
 		},
+		updateTranslation: (
+			state,
+			action: PayloadAction<{
+				threadId: string;
+				chatIndex: number;
+				translation: TranslatePluginData;
+			}>
+		) => {
+			const { threadId, chatIndex, translation } = action.payload;
+			state.threads[threadId].chats[chatIndex].translation =
+				translation;
+		},
 		updateAnswer: (
 			state,
 			action: PayloadAction<{
@@ -195,6 +208,7 @@ export const {
 	updateAnswer,
 	updateChatThread,
 	resetChat,
+	updateTranslation,
 } = chatSlice.actions;
 
 export const selectChatThread = (state: RootState, threadId: string) =>
