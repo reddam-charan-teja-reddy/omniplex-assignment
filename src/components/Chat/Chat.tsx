@@ -459,6 +459,7 @@ const Chat = (props: Props) => {
 					})
 				);
 				setError('');
+				console.log('before handle answer', translateData);
 				await handleAnswer(chat, JSON.stringify(translateData));
 			} else {
 				throw new Error('Mode is not translate');

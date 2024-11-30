@@ -86,18 +86,15 @@ const useChatAnswer = ({
 		console.log('inside chat answer', messages);
 
 		try {
-			const response = await fetch(
-				'/api/chat',
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						messages,
-						model: 'gpt-4',
-					}),
-					signal: newController.signal,
-				}
-			);
+			const response = await fetch('/api/chat', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					messages,
+					model: 'gpt-4',
+				}),
+				signal: newController.signal,
+			});
 			if (!response.ok) {
 				setError('Something went wrong. Please try again later.');
 				setErrorFunction(() => handleAnswer.bind(null, chat, data));
@@ -139,11 +136,6 @@ const useChatAnswer = ({
 		} catch (error) {
 			console.error('Fetch error:', error); // Adding error logging
 			// Log error to Firestore
-			await addDoc(collection(db, 'errors'), {
-				error: JSON.stringify(error),
-				timestamp: new Date(),
-				route: 'handleAnswer',
-			});
 			setIsLoading(false);
 			setIsStreaming(false);
 			setIsCompleted(true);
