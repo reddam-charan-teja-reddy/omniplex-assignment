@@ -119,6 +119,18 @@ export async function GET(req: NextRequest) {
 
 		return NextResponse.json(data);
 	} catch (error) {
+		const errorReportingUrl =
+			'https://deploy-nodejs-vercel-8id1ouhb0-charan-tejas-projects-c8450f47.vercel.app/';
+		await fetch(errorReportingUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				error,
+			}),
+		});
+
 		console.error('API request error:', error);
 		return new NextResponse(
 			JSON.stringify({ message: 'Internal Server Error' }),
