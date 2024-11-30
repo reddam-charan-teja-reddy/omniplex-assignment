@@ -87,7 +87,7 @@ const useChatAnswer = ({
 
 		try {
 			const response = await fetch(
-				'https://omniplex-assignment.vercel.app/api/chat',
+				'/api/chat',
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -197,18 +197,15 @@ const useChatAnswer = ({
 		}
 
 		try {
-			const response = await fetch(
-				'https://omniplex-assignment.vercel.app/api/chat',
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						messages,
-						model: 'gpt-4',
-					}),
-					signal: newController.signal,
-				}
-			);
+			const response = await fetch('/api/chat', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					messages,
+					model: 'gpt-4',
+				}),
+				signal: newController.signal,
+			});
 
 			if (!response.ok) {
 				setError('Something went wrong. Please try again later.');
