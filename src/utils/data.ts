@@ -5,6 +5,7 @@ import Youtube from '../../public/svgs/options/Youtube.svg';
 import Reddit from '../../public/svgs/options/Reddit.svg';
 import Stackoverflow from '../../public/svgs/options/Stackoverflow.svg';
 import { image } from '@nextui-org/react';
+import { url } from 'inspector';
 
 export const focusOptions = [
 	{
@@ -74,5 +75,14 @@ export const PLUGINS = [
 		description: 'Look up word definitions',
 		imageUrl:
 			'https://t4.ftcdn.net/jpg/00/90/67/23/240_F_90672351_aMnnWdxVtuAIUubWBVVMXotZvoKjdd73.jpg',
+	},
+	{
+		tag: 'Newly added',
+		name: 'Google Translate',
+		comingSoon: false,
+		url: '',
+		description: 'Translate text to different languages',
+		imageUrl:
+			'https://logos-world.net/wp-content/uploads/2022/05/Google-Translate-Icon-Logo-January-August-2015.png',
 	},
 ];
