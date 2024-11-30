@@ -198,34 +198,46 @@ const Chat = (props: Props) => {
 					if (!lastChat.mode) {
 						try {
 							console.log('about to call handle mode');
-							const { mode, arg } = await handleMode(
+							const result = await handleMode(
 								lastChat.question
 							);
-							console.log(
-								'after api call in chat.tsx',
-								mode,
-								arg
-							);
-							let parsedArg;
-							try {
-								parsedArg = arg ? JSON.parse(arg) : {};
-							} catch (parseError) {
-								console.error(
-									'Damn determining mode and arguments:',
-									error
+
+							if (result) {
+								const { mode, arg } = result;
+								console.log(
+									'after api call in chat.tsx',
+									mode,
+									arg
+								);
+
+								let parsedArg;
+								try {
+									parsedArg = arg
+										? JSON.parse(arg)
+										: {};
+								} catch (parseError) {
+									console.error(
+										'Error parsing arguments:',
+										parseError
+									);
+								}
+
+								console.log(
+									'inside chat.tsx before dispatch and update mode'
+								);
+								dispatch(
+									updateMode({
+										threadId: id,
+										chatIndex: lastChatIndex,
+										mode: mode,
+										arg: parsedArg,
+									})
+								);
+							} else {
+								throw new Error(
+									'handleMode returned undefined'
 								);
 							}
-							console.log(
-								'inside chat.tsx before dispatch and update mode'
-							);
-							dispatch(
-								updateMode({
-									threadId: id,
-									chatIndex: lastChatIndex,
-									mode: mode,
-									arg: parsedArg,
-								})
-							);
 						} catch (error) {
 							console.error(
 								'Error determining mode and arguments:',
