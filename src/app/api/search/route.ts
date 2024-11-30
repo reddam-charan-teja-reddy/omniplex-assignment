@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { json } from 'stream/consumers';
+import { getFirestore } from 'firebase/firestore';
+import { initializeErrorFirebase } from '../../../../errorconfig';
+import { collection, addDoc } from 'firebase/firestore';
 
 const key = process.env.BING_API_KEY;
 const BING_SEARCH_URL = 'https://api.bing.microsoft.com/v7.0/search';
 
 export const runtime = 'edge';
+
+const errApp = initializeErrorFirebase();
+const db = getFirestore(errApp);
 
 export async function GET(req: NextRequest) {
 	const { searchParams } = new URL(req.url);
@@ -50,16 +56,10 @@ export async function GET(req: NextRequest) {
 		console.log('Bing API response:', data);
 		return NextResponse.json({ message: 'Success', data });
 	} catch (error) {
-		const errorReportingUrl =
-			'https://deploy-nodejs-vercel-8id1ouhb0-charan-tejas-projects-c8450f47.vercel.app/';
-		await fetch(errorReportingUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				error,
-			}),
+		await addDoc(collection(db, 'errors'), {
+			error,
+			timestamp: new Date(),
+			route: 'tools',
 		});
 
 		console.error('Bing API request error:', error);

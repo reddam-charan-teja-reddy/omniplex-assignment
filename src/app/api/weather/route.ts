@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getFirestore } from 'firebase/firestore';
+import { initializeErrorFirebase } from '../../../../errorconfig';
+import { collection, addDoc } from 'firebase/firestore';
 
 const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 
@@ -9,6 +12,9 @@ function formatTime(hour: number) {
 	const formattedHour = hour % 12 || 12;
 	return `${formattedHour} ${amPm}`;
 }
+
+const errApp = initializeErrorFirebase();
+const db = getFirestore(errApp);
 
 export async function GET(req: NextRequest) {
 	console.log('inside weather api.ts');
@@ -119,16 +125,11 @@ export async function GET(req: NextRequest) {
 
 		return NextResponse.json(data);
 	} catch (error) {
-		const errorReportingUrl =
-			'https://deploy-nodejs-vercel-8id1ouhb0-charan-tejas-projects-c8450f47.vercel.app/';
-		await fetch(errorReportingUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				error,
-			}),
+		// Log error to Firestore
+		await addDoc(collection(db, 'errors'), {
+			error,
+			timestamp: new Date(),
+			route: 'tools',
 		});
 
 		console.error('API request error:', error);

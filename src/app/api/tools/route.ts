@@ -4,7 +4,11 @@ import type {
 	ChatCompletionCreateParamsNonStreaming,
 } from 'openai/resources/index';
 
+import { collection, addDoc } from 'firebase/firestore';
+
 import { OpenAI } from 'openai';
+import { getFirestore } from 'firebase/firestore';
+import { initializeErrorFirebase } from '../../../../errorconfig';
 
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
 const apiVersion = '2024-08-01-preview';
@@ -20,6 +24,8 @@ function getClient(): AzureOpenAI {
 }
 
 const openai = getClient();
+const errApp = initializeErrorFirebase();
+const db = getFirestore(errApp);
 
 export async function POST(req: Request) {
 	if (req.method !== 'POST') {
@@ -151,16 +157,12 @@ export async function POST(req: Request) {
 		);
 	} catch (error) {
 		console.error('Error calling OpenAI:', error);
-		const errorReportingUrl =
-			'https://deploy-nodejs-vercel-8id1ouhb0-charan-tejas-projects-c8450f47.vercel.app/';
-		await fetch(errorReportingUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				error,
-			}),
+		// Log error to Firestore
+
+		await addDoc(collection(db, 'errors'), {
+			error,
+			timestamp: new Date(),
+			route: 'tools',
 		});
 
 		return new Response(JSON.stringify({ error: 'out of tokens' }), {

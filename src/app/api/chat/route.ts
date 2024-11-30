@@ -4,6 +4,8 @@ import type {
 	ChatCompletionCreateParamsNonStreaming,
 } from 'openai/resources/index';
 
+import { collection, addDoc } from 'firebase/firestore';
+
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
 const apiVersion = '2024-08-01-preview';
 const apiKey = process.env.AZURE_OPENAI_API_KEY;
@@ -18,6 +20,11 @@ function getClient(): AzureOpenAI {
 }
 
 import { OpenAIStream, StreamingTextResponse } from 'ai';
+import { getFirestore } from 'firebase/firestore';
+import { initializeErrorFirebase } from '../../../../errorconfig';
+
+const errApp = initializeErrorFirebase();
+const db = getFirestore(errApp);
 
 const openai = getClient();
 
@@ -49,6 +56,14 @@ export async function POST(req: Request) {
 			body: JSON.stringify({
 				error,
 			}),
+		});
+
+		// Log error to Firestore
+
+		await addDoc(collection(db, 'errors'), {
+			error,
+			timestamp: new Date(),
+			route: 'tools',
 		});
 
 		throw error;
