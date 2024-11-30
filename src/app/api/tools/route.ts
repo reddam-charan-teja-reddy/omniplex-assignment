@@ -8,7 +8,9 @@ import { collection, addDoc } from 'firebase/firestore';
 
 import { OpenAI } from 'openai';
 import { getFirestore } from 'firebase/firestore';
-import { initializeErrorFirebase } from '../../../../errorconfig';
+import { initializeFirebase } from '../../../../firebaseConfig';
+
+const errApp = initializeFirebase();
 
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
 const apiVersion = '2024-08-01-preview';
@@ -24,7 +26,6 @@ function getClient(): AzureOpenAI {
 }
 
 const openai = getClient();
-const errApp = initializeErrorFirebase();
 const db = getFirestore(errApp);
 
 export async function POST(req: Request) {

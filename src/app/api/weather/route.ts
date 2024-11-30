@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getFirestore } from 'firebase/firestore';
-import { initializeErrorFirebase } from '../../../../errorconfig';
+import { initializeFirebase } from '../../../../firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 
 const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
@@ -13,7 +13,7 @@ function formatTime(hour: number) {
 	return `${formattedHour} ${amPm}`;
 }
 
-const errApp = initializeErrorFirebase();
+const errApp = initializeFirebase();
 const db = getFirestore(errApp);
 
 export async function GET(req: NextRequest) {

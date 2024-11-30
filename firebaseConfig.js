@@ -4,13 +4,13 @@ import { getFirestore } from '@firebase/firestore';
 
 // Firebase Config
 export const firebaseConfig = {
-	apiKey: 'AIzaSyC9Aro2yaoG73mqueMXA_TQROsdnbU3dKA',
-	authDomain: 'omni-a6740.firebaseapp.com',
-	projectId: 'omni-a6740',
-	storageBucket: 'omni-a6740.firebasestorage.app',
-	messagingSenderId: '149345944472',
-	appId: '1:149345944472:web:fd9946dd6eb7643d14a1ed',
-	measurementId: 'G-2ZW5TF0L9W',
+	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+	authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+	projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+	storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+	measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -23,6 +23,3 @@ export { db, storage };
 export const initializeFirebase = () => {
 	return app;
 };
-
-
-

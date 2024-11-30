@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { json } from 'stream/consumers';
 import { getFirestore } from 'firebase/firestore';
-import { initializeErrorFirebase } from '../../../../errorconfig';
+import { initializeFirebase } from '../../../../firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 
 const key = process.env.BING_API_KEY;
@@ -9,7 +9,7 @@ const BING_SEARCH_URL = 'https://api.bing.microsoft.com/v7.0/search';
 
 export const runtime = 'edge';
 
-const errApp = initializeErrorFirebase();
+const errApp = initializeFirebase();
 const db = getFirestore(errApp);
 
 export async function GET(req: NextRequest) {

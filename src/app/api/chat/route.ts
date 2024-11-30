@@ -21,9 +21,9 @@ function getClient(): AzureOpenAI {
 
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import { getFirestore } from 'firebase/firestore';
-import { initializeErrorFirebase } from '../../../../errorconfig';
+import { initializeFirebase } from '../../../../firebaseConfig';
 
-const errApp = initializeErrorFirebase();
+const errApp = initializeFirebase();
 const db = getFirestore(errApp);
 
 const openai = getClient();
@@ -45,18 +45,6 @@ export async function POST(req: Request) {
 		return new StreamingTextResponse(stream);
 	} catch (error) {
 		console.error('Error fetching chat completion:', error);
-		// Post the error to a given URL
-		const errorReportingUrl =
-			'https://deploy-nodejs-vercel-8id1ouhb0-charan-tejas-projects-c8450f47.vercel.app/';
-		await fetch(errorReportingUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				error,
-			}),
-		});
 
 		// Log error to Firestore
 
