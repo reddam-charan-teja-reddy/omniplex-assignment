@@ -151,9 +151,8 @@ export async function POST(req: Request) {
 		);
 	} catch (error) {
 		const e = await JSON.stringify(error);
-		console.error('Error fetching chat completion:', e);
-
-		return new Response(JSON.stringify({ error: 'out of tokens' }), {
+		console.error('tools API request error:', error);
+		return new Response(JSON.stringify({ message: e }), {
 			status: 500,
 		});
 	}

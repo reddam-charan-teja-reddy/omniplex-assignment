@@ -4,7 +4,6 @@ import type {
 	ChatCompletionCreateParamsNonStreaming,
 } from 'openai/resources/index';
 
-
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
 const apiVersion = '2024-08-01-preview';
 const apiKey = process.env.AZURE_OPENAI_API_KEY;
@@ -41,8 +40,10 @@ export async function POST(req: Request) {
 		return new StreamingTextResponse(stream);
 	} catch (error) {
 		const e = await JSON.stringify(error);
-		console.error('Error fetching chat completion:', e);
-
+		console.error('chat API request error:', error);
+		return new Response(JSON.stringify({ message: e }), {
+			status: 500,
+		});
 		throw error;
 	}
 }

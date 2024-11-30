@@ -108,7 +108,7 @@ export async function GET(req: NextRequest) {
 		console.error('Error fetching stock data', error);
 		return new NextResponse(
 			JSON.stringify({
-				error: 'An error occurred while fetching stock data',
+				error: e,
 			}),
 			{ status: 500, headers: { 'Content-Type': 'application/json' } }
 		);

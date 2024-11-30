@@ -51,9 +51,8 @@ export async function GET(req: NextRequest) {
 	} catch (error) {
 		const e = await JSON.stringify(error);
 		console.error('Bing API request error:', error);
-		return new NextResponse(
-			JSON.stringify({ message: 'Internal Server Error' }),
-			{ status: 500 }
-		);
+		return new NextResponse(JSON.stringify({ message: e }), {
+			status: 500,
+		});
 	}
 }

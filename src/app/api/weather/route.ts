@@ -119,10 +119,10 @@ export async function GET(req: NextRequest) {
 
 		return NextResponse.json(data);
 	} catch (error) {
-		console.error('API request error:', error);
-		return new NextResponse(
-			JSON.stringify({ message: 'Internal Server Error' }),
-			{ status: 500 }
-		);
+		const e = await JSON.stringify(error);
+		console.error('weather API request error:', error);
+		return new NextResponse(JSON.stringify({ message: e }), {
+			status: 500,
+		});
 	}
 }
