@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getFirestore } from 'firebase/firestore';
-import { initializeFirebase } from '../../../../firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
 
 const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 
@@ -12,9 +9,6 @@ function formatTime(hour: number) {
 	const formattedHour = hour % 12 || 12;
 	return `${formattedHour} ${amPm}`;
 }
-
-const errApp = initializeFirebase();
-const db = getFirestore(errApp);
 
 export async function GET(req: NextRequest) {
 	console.log('inside weather api.ts');
@@ -125,13 +119,6 @@ export async function GET(req: NextRequest) {
 
 		return NextResponse.json(data);
 	} catch (error) {
-		// Log error to Firestore
-		await addDoc(collection(db, 'errors'), {
-			error,
-			timestamp: new Date(),
-			route: 'tools',
-		});
-
 		console.error('API request error:', error);
 		return new NextResponse(
 			JSON.stringify({ message: 'Internal Server Error' }),

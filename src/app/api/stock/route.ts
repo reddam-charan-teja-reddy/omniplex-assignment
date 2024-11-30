@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getFirestore } from 'firebase/firestore';
-import { initializeFirebase } from '../../../../firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
 
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
 const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY;
@@ -16,9 +13,6 @@ type ChartDataPoint = {
 	timestamp: string;
 	price: number;
 };
-
-const errApp = initializeFirebase();
-const db = getFirestore(errApp);
 
 export async function GET(req: NextRequest) {
 	const { searchParams } = new URL(req.url);
@@ -108,11 +102,8 @@ export async function GET(req: NextRequest) {
 			headers: { 'Content-Type': 'application/json' },
 		});
 	} catch (error) {
-		await addDoc(collection(db, 'errors'), {
-			error,
-			timestamp: new Date(),
-			route: 'tools',
-		});
+		const e = await JSON.stringify(error);
+		console.error('Error fetching chat completion:', e);
 
 		console.error('Error fetching stock data', error);
 		return new NextResponse(

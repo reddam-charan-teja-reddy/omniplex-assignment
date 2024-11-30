@@ -1,3 +1,6 @@
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
+
 export const handleMode = async (text: string) => {
 	try {
 		console.log('inside api.ts before tools api call' + text);
@@ -23,6 +26,12 @@ export const handleMode = async (text: string) => {
 		return { mode: data.mode, arg: data.arg };
 	} catch (error) {
 		console.error('Error fetching mode and arguments:', error);
+		// Log error to Firestore
+		await addDoc(collection(db, 'errors'), {
+			error: JSON.stringify(error),
+			timestamp: new Date(),
+			route: 'handleMode',
+		});
 		throw error;
 	}
 };

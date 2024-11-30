@@ -4,13 +4,7 @@ import type {
 	ChatCompletionCreateParamsNonStreaming,
 } from 'openai/resources/index';
 
-import { collection, addDoc } from 'firebase/firestore';
-
 import { OpenAI } from 'openai';
-import { getFirestore } from 'firebase/firestore';
-import { initializeFirebase } from '../../../../firebaseConfig';
-
-const errApp = initializeFirebase();
 
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
 const apiVersion = '2024-08-01-preview';
@@ -26,7 +20,6 @@ function getClient(): AzureOpenAI {
 }
 
 const openai = getClient();
-const db = getFirestore(errApp);
 
 export async function POST(req: Request) {
 	if (req.method !== 'POST') {
@@ -157,14 +150,8 @@ export async function POST(req: Request) {
 			{ status: 200 }
 		);
 	} catch (error) {
-		console.error('Error calling OpenAI:', error);
-		// Log error to Firestore
-
-		await addDoc(collection(db, 'errors'), {
-			error,
-			timestamp: new Date(),
-			route: 'tools',
-		});
+		const e = await JSON.stringify(error);
+		console.error('Error fetching chat completion:', e);
 
 		return new Response(JSON.stringify({ error: 'out of tokens' }), {
 			status: 500,

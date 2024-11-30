@@ -11,7 +11,7 @@ import { getInitialMessages } from '../utils/utils';
 import { selectUserDetailsState } from '@/store/authSlice';
 import { selectAI } from '@/store/aiSlice';
 import { store } from '@/store/store';
-import { doc, updateDoc } from '@firebase/firestore';
+import { doc, updateDoc, collection, addDoc } from '@firebase/firestore';
 import { db } from '../../firebaseConfig';
 
 type UseChatAnswerProps = {
@@ -138,6 +138,12 @@ const useChatAnswer = ({
 			}
 		} catch (error) {
 			console.error('Fetch error:', error); // Adding error logging
+			// Log error to Firestore
+			await addDoc(collection(db, 'errors'), {
+				error: JSON.stringify(error),
+				timestamp: new Date(),
+				route: 'handleAnswer',
+			});
 			setIsLoading(false);
 			setIsStreaming(false);
 			setIsCompleted(true);
@@ -264,6 +270,12 @@ const useChatAnswer = ({
 				await handleSave();
 				return;
 			}
+			// Log error to Firestore
+			await addDoc(collection(db, 'errors'), {
+				error: JSON.stringify(error),
+				timestamp: new Date(),
+				route: 'handleRewrite',
+			});
 			setError('Something went wrong. Please try again later.');
 			setErrorFunction(() => handleRewrite);
 		} finally {
