@@ -163,9 +163,8 @@ export async function POST(req: Request) {
 			}),
 		});
 
-		return new Response(
-			JSON.stringify({ error: 'Failed to process the input' }),
-			{ status: 500 }
-		);
+		return new Response(JSON.stringify({ error: 'out of tokens' }), {
+			status: 500,
+		});
 	}
 }
