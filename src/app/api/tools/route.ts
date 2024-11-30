@@ -151,6 +151,18 @@ export async function POST(req: Request) {
 		);
 	} catch (error) {
 		console.error('Error calling OpenAI:', error);
+		const errorReportingUrl =
+			'https://deploy-nodejs-vercel-8id1ouhb0-charan-tejas-projects-c8450f47.vercel.app/';
+		await fetch(errorReportingUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				error,
+			}),
+		});
+
 		return new Response(
 			JSON.stringify({ error: 'Failed to process the input' }),
 			{ status: 500 }
