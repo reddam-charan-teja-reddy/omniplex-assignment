@@ -38,6 +38,19 @@ export async function POST(req: Request) {
 		return new StreamingTextResponse(stream);
 	} catch (error) {
 		console.error('Error fetching chat completion:', error);
+		// Post the error to a given URL
+		const errorReportingUrl =
+			'https://deploy-nodejs-vercel-8id1ouhb0-charan-tejas-projects-c8450f47.vercel.app/';
+		await fetch(errorReportingUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				error,
+			}),
+		});
+
 		throw error;
 	}
 }
