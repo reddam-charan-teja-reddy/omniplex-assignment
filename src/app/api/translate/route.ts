@@ -24,7 +24,8 @@ export async function POST(req: NextRequest) {
 	const options = {
 		method: 'POST',
 		headers: {
-			'x-rapidapi-key': DEEP_TRANSLATE_API_KEY,
+			'x-rapidapi-key':
+				'732821232amsh2e15f4e238a646bp17a797jsn6629027f47d7',
 			'x-rapidapi-host': 'deep-translate1.p.rapidapi.com',
 			'Content-Type': 'application/json',
 		},
@@ -40,6 +41,14 @@ export async function POST(req: NextRequest) {
 		const response = await fetch(url, options);
 		const result = await response.json();
 		console.log('result:', result);
+		if (!response.ok) {
+			return new NextResponse(
+				JSON.stringify({
+					message: result.error,
+				}),
+				{ status: response.status }
+			);
+		}
 		const { data } = result;
 		const { translations } = data;
 		const { translatedText } = translations;
