@@ -1,8 +1,4 @@
 import { AzureOpenAI } from 'openai';
-import type {
-	ChatCompletion,
-	ChatCompletionCreateParamsNonStreaming,
-} from 'openai/resources/index';
 
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
 const apiVersion = '2024-08-01-preview';
@@ -18,8 +14,6 @@ function getClient(): AzureOpenAI {
 }
 
 import { OpenAIStream, StreamingTextResponse } from 'ai';
-import { getFirestore } from 'firebase/firestore';
-import { initializeFirebase } from '../../../../firebaseConfig';
 
 const openai = getClient();
 

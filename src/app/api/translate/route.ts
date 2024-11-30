@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { json } from 'stream/consumers';
-const DEEP_TRANSLATE_API_KEY = process.env.DEEP_TRANSLATE_API_KEY;
+const DEEP_TRANSLATE_API_KEY =
+	'732821232amsh2e15f4e238a646bp17a797jsn6629027f47d7';
 
 export async function POST(req: NextRequest) {
 	console.log('inside translate api.ts');
@@ -23,8 +24,7 @@ export async function POST(req: NextRequest) {
 	const options = {
 		method: 'POST',
 		headers: {
-			'x-rapidapi-key':
-				'732821232amsh2e15f4e238a646bp17a797jsn6629027f47d7',
+			'x-rapidapi-key': DEEP_TRANSLATE_API_KEY,
 			'x-rapidapi-host': 'deep-translate1.p.rapidapi.com',
 			'Content-Type': 'application/json',
 		},
