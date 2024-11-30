@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getFirestore } from 'firebase/firestore';
-import { initializeErrorFirebase } from '../../../../errorconfig';
+import { initializeFirebase } from '../../../../firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
@@ -17,7 +17,7 @@ type ChartDataPoint = {
 	price: number;
 };
 
-const errApp = initializeErrorFirebase();
+const errApp = initializeFirebase();
 const db = getFirestore(errApp);
 
 export async function GET(req: NextRequest) {
