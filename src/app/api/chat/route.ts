@@ -27,7 +27,9 @@ export async function POST(req: Request) {
 			promptWithParts = buildGoogleGenAIPrompt(messages);
 		}
 
-		const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+		const genAI = new GoogleGenerativeAI(
+			'AIzaSyC9EqWdYUPOg3F0OUT-5vrzzwFQQi_BF-g'
+		);
 		const model = genAI.getGenerativeModel({ model: modelName });
 
 		console.log('MODELNAME: ' + modelName);
