@@ -26,10 +26,15 @@ export async function POST(req: Request) {
 			modelName = 'gemini-pro';
 			promptWithParts = buildGoogleGenAIPrompt(messages);
 		}
-
-		const genAI = new GoogleGenerativeAI(
-			'AIzaSyC9EqWdYUPOg3F0OUT-5vrzzwFQQi_BF-g'
-		);
+		if (!process.env.GOOGLE_API_KEY) {
+			return new Response(
+				'GOOGLE_API_KEY is not set in the environment variables',
+				{
+					status: 500,
+				}
+			);
+		}
+		const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 		const model = genAI.getGenerativeModel({ model: modelName });
 
 		console.log('MODELNAME: ' + modelName);
