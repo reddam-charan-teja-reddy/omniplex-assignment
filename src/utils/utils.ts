@@ -89,12 +89,11 @@ export const getInitialMessages = (chat: Chat, data?: string): Message[] => {
 				content:
 					'Generate a comprehensive and informative answer (but no more than 256 words in 2 paragraphs) for a given question solely based on the provided web Search Results (URL and Summary).' +
 					'You must only use information from the provided search results.' +
-					'Use an unbiased and journalistic tone.' +
 					`Use this current date and time: ${date}.` +
 					'Combine search results together into a coherent answer.' +
 					'Do not repeat text. Cite search results using [{number}] notation.' +
 					'Only cite the most relevant results that answer the question accurately.' +
-					'If different results refer to different entities with the same name, write separate answers for each entity.' +
+					'If different results refer to different entities with the same name, skip them.' +
 					'You have the ability to search and will be given websites and the scarped data from them and you will have to make up an answer with that only' +
 					'You must must provide citations in the format of [{number}] and it sharts with [{1}].',
 			},
@@ -110,7 +109,7 @@ export const getInitialMessages = (chat: Chat, data?: string): Message[] => {
 				content:
 					'Generate a comprehensive and informative answer (but no more than 256 words in 2 paragraphs) for a given question solely based on the provided on the users question and api response.' +
 					'Talk about the weather answering questions combing the api response and user question' +
-					'Use an unbiased and journalistic tone.' +
+					'summarise the api response and dont repeat the same data in your response' +
 					`Use this current date and time: ${date}.`,
 			},
 			{
@@ -125,7 +124,7 @@ export const getInitialMessages = (chat: Chat, data?: string): Message[] => {
 				content:
 					'Generate a comprehensive and informative answer (but no more than 256 words in 2 paragraphs) for a given question solely based on the provided on the users question and api response.' +
 					'Talk about the stock answering questions combing the api response and user question' +
-					'Use an unbiased and journalistic tone.' +
+					'summarise the api response and dont repeat the same data in your response' +
 					`Use this current date and time: ${date}.`,
 			},
 			{
@@ -140,7 +139,7 @@ export const getInitialMessages = (chat: Chat, data?: string): Message[] => {
 				content:
 					'Generate a comprehensive and informative answer (but no more than 256 words in 2 paragraphs) for a given question solely based on the provided on the users question and api response.' +
 					'Talk about the dictionary answering questions combing the api response and user question' +
-					'Use an unbiased and journalistic tone.',
+					'summarise the api response and dont repeat the same data in your response',
 			},
 			{
 				role: 'user',
@@ -154,7 +153,7 @@ export const getInitialMessages = (chat: Chat, data?: string): Message[] => {
 				content:
 					'Generate a comprehensive and informative answer (in less than 100 words) for a given question solely based on the provided on the users question and api response.' +
 					'Talk about the translation answering questions combing the api response and user question' +
-					'Use an unbiased and journalistic tone.',
+					'summarise the api response and dont repeat the same data in your response',
 			},
 			{
 				role: 'user',

@@ -57,12 +57,9 @@ export async function GET(req: NextRequest) {
 		console.log('response code', geoResponse.status);
 		console.log('logging geoData:', geoData);
 		if (geoData.length === 0) {
-			return new NextResponse(
-				JSON.stringify({ message: 'City not found.' }),
-				{
-					status: 404,
-				}
-			);
+			return new NextResponse(JSON.stringify({ message: 'City not found.' }), {
+				status: 404,
+			});
 		}
 		console.log('logging geoData:', geoData);
 
@@ -102,16 +99,12 @@ export async function GET(req: NextRequest) {
 			daily: {
 				maxTemp: Math.round(
 					Math.max(
-						...forecastData.list
-							.slice(0, 8)
-							.map((item: any) => item.main.temp_max)
+						...forecastData.list.slice(0, 8).map((item: any) => item.main.temp_max)
 					)
 				),
 				minTemp: Math.round(
 					Math.min(
-						...forecastData.list
-							.slice(0, 8)
-							.map((item: any) => item.main.temp_min)
+						...forecastData.list.slice(0, 8).map((item: any) => item.main.temp_min)
 					)
 				),
 			},
@@ -119,9 +112,8 @@ export async function GET(req: NextRequest) {
 
 		return NextResponse.json(data);
 	} catch (error) {
-		const e = await JSON.stringify(error);
 		console.error('weather API request error:', error);
-		return new NextResponse(JSON.stringify({ message: e }), {
+		return new NextResponse(JSON.stringify(error), {
 			status: 500,
 		});
 	}

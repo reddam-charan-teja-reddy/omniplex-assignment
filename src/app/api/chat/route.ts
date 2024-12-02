@@ -1,43 +1,68 @@
-import { AzureOpenAI } from 'openai';
+import { StreamingTextResponse, GoogleGenerativeAIStream, Message } from 'ai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
-const apiVersion = '2024-08-01-preview';
-const apiKey = process.env.AZURE_OPENAI_API_KEY;
-const deploymentName = process.env.AZURE_DEPLOYMENT_ID;
-
-function getClient(): AzureOpenAI {
-	return new AzureOpenAI({
-		endpoint,
-		apiKey,
-		apiVersion,
-	});
-}
-
-import { OpenAIStream, StreamingTextResponse } from 'ai';
-
-const openai = getClient();
-
+// IMPORTANT! Set the runtime to edge
 export const runtime = 'edge';
 
 export async function POST(req: Request) {
 	try {
-		const { messages, model } = await req.json();
-		console.log('inside chat api.ts', messages, model);
+		const reqBody = await req.json();
+		const images: string[] = JSON.parse(reqBody.data?.images || '[]'); // Handle optional image data
+		const imageParts = filesArrayToGenerativeParts(images);
+		const messages: Message[] = reqBody.messages;
 
-		const response = await openai.chat.completions.create({
-			stream: true,
-			model: model,
-			messages: messages,
-		});
+		let modelName: string;
+		let promptWithParts: any;
 
-		const stream = OpenAIStream(response);
-		return new StreamingTextResponse(stream);
+		if (imageParts.length > 0) {
+			// If images are provided, use a model that handles both text and images (e.g., Gemini Vision)
+			modelName = 'gemini-pro-vision';
+			const prompt = [...messages]
+				.filter((message) => message.role === 'user')
+				.pop()?.content;
+			promptWithParts = [prompt, ...imageParts];
+		} else {
+			// If no images, proceed with multi-turn chat
+			modelName = 'gemini-pro';
+			promptWithParts = buildGoogleGenAIPrompt(messages);
+		}
+
+		const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+		const model = genAI.getGenerativeModel({ model: modelName });
+
+		console.log('MODELNAME: ' + modelName);
+		console.log('PROMPT WITH PARTS: ', promptWithParts);
+
+		// Streaming response from Google Generative AI
+		const streamingResponse = await model.generateContentStream(promptWithParts);
+		return new StreamingTextResponse(GoogleGenerativeAIStream(streamingResponse));
 	} catch (error) {
-		const e = await JSON.stringify(error);
 		console.error('chat API request error:', error);
-		return new Response(JSON.stringify({ message: e }), {
+		return new Response(JSON.stringify(error), {
 			status: 500,
 		});
-		throw error;
 	}
+}
+
+function buildGoogleGenAIPrompt(messages: Message[]) {
+	return {
+		contents: messages
+			.filter((message) => message.role === 'user' || message.role === 'assistant')
+			.map((message) => ({
+				role: message.role === 'user' ? 'user' : 'model',
+				parts: [{ text: message.content }],
+			})),
+	};
+}
+
+function filesArrayToGenerativeParts(images: string[]) {
+	return images.map((imageData) => ({
+		inlineData: {
+			data: imageData.split(',')[1],
+			mimeType: imageData.substring(
+				imageData.indexOf(':') + 1,
+				imageData.lastIndexOf(';')
+			),
+		},
+	}));
 }

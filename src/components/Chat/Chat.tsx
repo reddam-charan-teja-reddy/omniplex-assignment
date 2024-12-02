@@ -88,32 +88,21 @@ const Chat = (props: Props) => {
 					'lastChatId',
 					lastChatId
 				);
-				if (lastChatId === lastProcessedChatRef.current) {
+				if (lastChatId !== lastProcessedChatRef.current) {
 					if (!lastChat.mode) {
 						try {
 							console.log('about to call handle mode');
-							const result = await handleMode(
-								lastChat.question
-							);
+							const result = await handleMode(lastChat.question);
 
 							if (result) {
 								const { mode, arg } = result;
-								console.log(
-									'after api call in chat.tsx',
-									mode,
-									arg
-								);
+								console.log('after api call in chat.tsx', mode, arg);
 
 								let parsedArg;
 								try {
-									parsedArg = arg
-										? JSON.parse(arg)
-										: {};
+									parsedArg = arg ? JSON.parse(arg) : {};
 								} catch (parseError) {
-									console.error(
-										'Error parsing arguments:',
-										parseError
-									);
+									console.error('Error parsing arguments:', parseError);
 								}
 
 								console.log(
@@ -129,165 +118,85 @@ const Chat = (props: Props) => {
 									})
 								);
 							} else {
-								throw new Error(
-									'handleMode returned undefined'
-								);
+								throw new Error('handleMode returned undefined');
 							}
 						} catch (error) {
-							console.error(
-								'Error determining mode and arguments:',
-								error
-							);
-							setError(
-								'Error determining mode and arguments'
-							);
-							setErrorFunction(() =>
-								handleMode.bind(null, lastChat.question)
-							);
+							console.error('Error determining mode and arguments:', error);
+							setError('Error determining mode and arguments');
+							setErrorFunction(() => handleMode.bind(null, lastChat.question));
 						}
 						return;
 					}
 
-					if (
-						lastChat.mode === 'weather' &&
-						!lastChat.weatherResults
-					) {
+					if (lastChat.mode === 'weather' && !lastChat.weatherResults) {
 						try {
-							console.log(
-								'lastChat.arg.location',
-								lastChat.arg.location
-							);
-							await handleWeather(
-								lastChat.arg.location,
-								lastChatIndex
-							);
+							console.log('lastChat.arg.location', lastChat.arg.location);
+							await handleWeather(lastChat.arg.location, lastChatIndex);
 						} catch (error) {
-							setError(
-								'Error fetching or processing search results'
-							);
+							setError('Error fetching or processing search results');
 							setErrorFunction(() =>
-								handleWeather.bind(
-									null,
-									lastChat.arg.location,
-									lastChatIndex
-								)
+								handleWeather.bind(null, lastChat.arg.location, lastChatIndex)
 							);
 							return;
 						}
 					}
-					if (
-						lastChat.mode === 'translate' &&
-						!lastChat.translation
-					) {
+					if (lastChat.mode === 'translate' && !lastChat.translation) {
 						try {
-							console.log(
-								'lastChat.arg.language',
-								lastChat
-							);
-							await handleTranslate(
-								lastChat.arg,
-								lastChatIndex
-							);
+							console.log('lastChat.arg.language', lastChat);
+							await handleTranslate(lastChat.arg, lastChatIndex);
 						} catch (error) {
-							setError(
-								'Error fetching or processing search results'
-							);
+							setError('Error fetching or processing search results');
 							setErrorFunction(() =>
-								handleTranslate.bind(
-									null,
-									lastChat.arg.language,
-									lastChatIndex
-								)
+								handleTranslate.bind(null, lastChat.arg.language, lastChatIndex)
 							);
 							return;
 						}
 					}
 
-					if (
-						lastChat.mode === 'stock' &&
-						!lastChat.stocksResults
-					) {
+					if (lastChat.mode === 'stock' && !lastChat.stocksResults) {
 						try {
-							console.log(
-								'lastChat.arg.symbol',
-								lastChat.arg.symbol
-							);
-							await handleStock(
-								lastChat.arg.symbol,
-								lastChatIndex
-							);
+							console.log('lastChat.arg.symbol', lastChat.arg.symbol);
+							await handleStock(lastChat.arg.symbol, lastChatIndex);
 						} catch (error) {
-							setError(
-								'Error fetching or processing search results'
-							);
+							setError('Error fetching or processing search results');
 							setErrorFunction(() =>
-								handleStock.bind(
-									null,
-									lastChat.arg.symbol,
-									lastChatIndex
-								)
+								handleStock.bind(null, lastChat.arg.symbol, lastChatIndex)
 							);
 							return;
 						}
 					}
 
-					if (
-						lastChat.mode === 'dictionary' &&
-						!lastChat.dictionaryResults
-					) {
+					if (lastChat.mode === 'dictionary' && !lastChat.dictionaryResults) {
 						try {
-							console.log(
-								'lastChat.arg.word',
-								lastChat.arg.symbol
-							);
-							await handleDictionary(
-								lastChat.arg.word,
-								lastChatIndex
-							);
+							console.log('lastChat.arg.word', lastChat.arg.symbol);
+							await handleDictionary(lastChat.arg.word, lastChatIndex);
 						} catch (error) {
-							setError(
-								'Error fetching or processing dictionary results'
-							);
+							setError('Error fetching or processing dictionary results');
 							setErrorFunction(() =>
-								handleDictionary.bind(
-									null,
-									lastChat.arg.word,
-									lastChatIndex
-								)
+								handleDictionary.bind(null, lastChat.arg.word, lastChatIndex)
 							);
 							return;
 						}
 					}
 
-					if (
-						lastChat.mode === 'search' &&
-						!lastChat.searchResults
-					) {
+					if (lastChat.mode === 'search' && !lastChat.searchResults) {
 						try {
 							await handleSearch(lastChatIndex);
 						} catch (error) {
-							setError(
-								'Error fetching or processing search results'
-							);
-							setErrorFunction(() =>
-								handleSearch.bind(null, lastChatIndex)
-							);
+							setError('Error fetching or processing search results');
+							setErrorFunction(() => handleSearch.bind(null, lastChatIndex));
 							return;
 						}
 					}
 
 					if (
-						(lastChat.mode === 'chat' ||
-							lastChat.mode === 'image') &&
+						(lastChat.mode === 'chat' || lastChat.mode === 'image') &&
 						!lastChat.answer
 					) {
 						try {
 							await handleAnswer(lastChat);
 						} catch (error) {
-							console.error(
-								'Error generating answer:',
-								error
-							);
+							console.error('Error generating answer:', error);
 						}
 					} else if (lastChat.answer) {
 						setIsLoading(false);
@@ -317,16 +226,12 @@ const Chat = (props: Props) => {
 		try {
 			if (chat?.mode === 'search') {
 				const response = await fetch(
-					`/api/search?q=${encodeURIComponent(
-						chat?.query + ' ' + chat?.question
-					)}`
+					`/api/search?q=${encodeURIComponent(chat?.query + ' ' + chat?.question)}`
 				);
 
 				if (!response.ok) {
 					setError('Failed to fetch search results');
-					setErrorFunction(() =>
-						handleSearch.bind(null, chatIndex)
-					);
+					setErrorFunction(() => handleSearch.bind(null, chatIndex));
 					return;
 				}
 
@@ -343,21 +248,14 @@ const Chat = (props: Props) => {
 
 				const data = searchData?.data?.webPages?.value?.slice(0, 3);
 				if (!data || data.length === 0) {
-					throw new Error(
-						'No valid search results found to scrape.'
-					);
+					throw new Error('No valid search results found to scrape.');
 				}
 
-				const urlsToScrape = data
-					.map((item: any) => item.url)
-					.join(',');
-				const scrapeResponse = await fetch(
-					`/api/scrape?urls=${urlsToScrape}`,
-					{
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-					}
-				);
+				const urlsToScrape = data.map((item: any) => item.url).join(',');
+				const scrapeResponse = await fetch(`/api/scrape?urls=${urlsToScrape}`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+				});
 
 				if (!scrapeResponse.ok) {
 					throw new Error('Failed to scrape website data');
@@ -371,10 +269,7 @@ const Chat = (props: Props) => {
 				throw new Error('Mode is not search');
 			}
 		} catch (error) {
-			console.error(
-				'Error fetching or processing search results:',
-				error
-			);
+			console.error('Error fetching or processing search results:', error);
 			setError('Error fetching or processing search results');
 			setErrorFunction(() => handleSearch.bind(null, chatIndex));
 		}
@@ -411,14 +306,9 @@ const Chat = (props: Props) => {
 				throw new Error('Mode is not weather');
 			}
 		} catch (error) {
-			console.error(
-				'Error fetching or processing weather data:',
-				error
-			);
+			console.error('Error fetching or processing weather data:', error);
 			setError('Error fetching or processing weather data');
-			setErrorFunction(() =>
-				handleWeather.bind(null, location, chatIndex)
-			);
+			setErrorFunction(() => handleWeather.bind(null, location, chatIndex));
 		}
 	};
 	const handleTranslate = async (language: translate, chatIndex: number) => {
@@ -438,9 +328,7 @@ const Chat = (props: Props) => {
 						source_language as string
 					)}&text=${encodeURIComponent(
 						text as string
-					)}&target_language=${encodeURIComponent(
-						target_language as string
-					)}`,
+					)}&target_language=${encodeURIComponent(target_language as string)}`,
 					options
 				);
 
@@ -465,14 +353,9 @@ const Chat = (props: Props) => {
 				throw new Error('Mode is not translate');
 			}
 		} catch (error) {
-			console.error(
-				'Error fetching or processing translate data:',
-				error
-			);
+			console.error('Error fetching or processing translate data:', error);
 			setError('Error fetching or processing translate data');
-			setErrorFunction(() =>
-				handleTranslate.bind(null, language, chatIndex)
-			);
+			setErrorFunction(() => handleTranslate.bind(null, language, chatIndex));
 		}
 	};
 
@@ -544,14 +427,9 @@ const Chat = (props: Props) => {
 				throw new Error('Mode is not dictoionary');
 			}
 		} catch (error) {
-			console.error(
-				'Error fetching or processing dictionary data:',
-				error
-			);
+			console.error('Error fetching or processing dictionary data:', error);
 			setError('Error fetching or processing dictionary data');
-			setErrorFunction(() =>
-				handleDictionary.bind(null, word, chatIndex)
-			);
+			setErrorFunction(() => handleDictionary.bind(null, word, chatIndex));
 		}
 	};
 
@@ -586,11 +464,7 @@ const Chat = (props: Props) => {
 		<div className={styles.container}>
 			{chatThread?.chats.map((chat, index) => (
 				<div
-					ref={
-						index === chatThread.chats.length - 1
-							? chatContainerRef
-							: null
-					}
+					ref={index === chatThread.chats.length - 1 ? chatContainerRef : null}
 					key={index}
 					className={styles.chat}
 				>
@@ -605,31 +479,23 @@ const Chat = (props: Props) => {
 								searchResults={chat.searchResults}
 								stockResults={chat.stocksResults}
 								weatherResults={chat.weatherResults}
-								dictionaryResults={
-									chat.dictionaryResults
-								}
+								dictionaryResults={chat.dictionaryResults}
 								translateResults={chat.translation}
 							/>
 							<Answer
 								error={error}
 								answer={chat.answer}
-								isLoading={
-									isLoading &&
-									index ===
-										chatThread.chats.length - 1
-								}
+								isLoading={isLoading && index === chatThread.chats.length - 1}
 								citations={generateCitations(chat)}
 							/>
-							{index === chatThread.chats.length - 1 &&
-								!isLoading &&
-								isCompleted && (
-									<Actions
-										fork={chatThread.shared}
-										chat={chat}
-										chatThread={chatThread}
-										rewrite={handleRewrite}
-									/>
-								)}
+							{index === chatThread.chats.length - 1 && !isLoading && isCompleted && (
+								<Actions
+									fork={chatThread.shared}
+									chat={chat}
+									chatThread={chatThread}
+									rewrite={handleRewrite}
+								/>
+							)}
 							{index < chatThread.chats.length - 1 && (
 								<div className={styles.divider} />
 							)}
@@ -639,8 +505,7 @@ const Chat = (props: Props) => {
 			))}
 			<Prompt
 				block={
-					chatThread.chats[chatThread.chats.length - 1].mode ===
-						'' ||
+					chatThread.chats[chatThread.chats.length - 1].mode === '' ||
 					isLoading ||
 					isStreaming
 				}

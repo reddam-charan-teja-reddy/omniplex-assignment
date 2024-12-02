@@ -44,30 +44,18 @@ const useChatAnswer = ({
 		if (userId) {
 			try {
 				const updatedState = store.getState();
-				const updatedChatThread = selectChatThread(
-					updatedState,
-					threadId
-				);
+				const updatedChatThread = selectChatThread(updatedState, threadId);
 				const updatedChats = updatedChatThread?.chats || [];
 				const updatedMessages = updatedChatThread?.messages || [];
 				if (userId) {
 					try {
-						const chatThreadRef = doc(
-							db,
-							'users',
-							userId,
-							'history',
-							threadId
-						);
+						const chatThreadRef = doc(db, 'users', userId, 'history', threadId);
 						await updateDoc(chatThreadRef, {
 							messages: updatedMessages,
 							chats: updatedChats,
 						});
 					} catch (error) {
-						console.error(
-							'Error updating chat thread in Firestore:',
-							error
-						);
+						console.error('Error updating chat thread in Firestore:', error);
 					}
 				}
 			} catch (error) {
@@ -233,10 +221,10 @@ const useChatAnswer = ({
 						break;
 					}
 				}
-				const lastAssistantMessageIndex =
-					chatThread.messages.findLastIndex(
-						(message) => message.role === 'assistant'
-					);
+				console.log('answer:', answer);
+				const lastAssistantMessageIndex = chatThread.messages.findLastIndex(
+					(message) => message.role === 'assistant'
+				);
 
 				if (lastAssistantMessageIndex !== -1) {
 					dispatch(

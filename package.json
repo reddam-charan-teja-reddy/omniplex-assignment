@@ -9,11 +9,13 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@anthropic-ai/sdk": "^0.32.1",
 		"@azure/identity": "^4.5.0",
 		"@azure/openai": "^2.0.0",
 		"@firebase/firestore": "^4.5.0",
 		"@firebase/storage": "^0.12.2",
 		"@google-cloud/firestore": "^7.10.0",
+		"@google/generative-ai": "^0.21.0",
 		"@headlessui/react": "^2.0.3",
 		"@headlessui/tailwindcss": "^0.2.0",
 		"@heroicons/react": "^2.1.1",
@@ -36,6 +38,7 @@
 		"firebase-admin": "^13.0.1",
 		"formidable": "^3.5.1",
 		"framer-motion": "^11.0.15",
+		"gemini-ai": "^2.2.1",
 		"googleapis": "^134.0.0",
 		"katex": "^0.16.10",
 		"lucide-react": "^0.462.0",
