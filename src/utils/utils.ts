@@ -109,7 +109,6 @@ export const getInitialMessages = (chat: Chat, data?: string): Message[] => {
 				content:
 					'Generate a comprehensive and informative answer (but no more than 256 words in 2 paragraphs) for a given question solely based on the provided on the users question and api response.' +
 					'Talk about the weather answering questions combing the api response and user question' +
-					'summarise the api response and dont repeat the same data in your response' +
 					`Use this current date and time: ${date}.`,
 			},
 			{
@@ -124,7 +123,6 @@ export const getInitialMessages = (chat: Chat, data?: string): Message[] => {
 				content:
 					'Generate a comprehensive and informative answer (but no more than 256 words in 2 paragraphs) for a given question solely based on the provided on the users question and api response.' +
 					'Talk about the stock answering questions combing the api response and user question' +
-					'summarise the api response and dont repeat the same data in your response' +
 					`Use this current date and time: ${date}.`,
 			},
 			{
@@ -138,8 +136,7 @@ export const getInitialMessages = (chat: Chat, data?: string): Message[] => {
 				role: 'system',
 				content:
 					'Generate a comprehensive and informative answer (but no more than 256 words in 2 paragraphs) for a given question solely based on the provided on the users question and api response.' +
-					'Talk about the dictionary answering questions combing the api response and user question' +
-					'summarise the api response and dont repeat the same data in your response',
+					'Talk about the dictionary answering questions combing the api response and user question' 
 			},
 			{
 				role: 'user',
@@ -152,8 +149,7 @@ export const getInitialMessages = (chat: Chat, data?: string): Message[] => {
 				role: 'system',
 				content:
 					'Generate a comprehensive and informative answer (in less than 100 words) for a given question solely based on the provided on the users question and api response.' +
-					'Talk about the translation answering questions combing the api response and user question' +
-					'summarise the api response and dont repeat the same data in your response',
+					'Talk about the translation answering questions combing the api response and user question' 
 			},
 			{
 				role: 'user',
